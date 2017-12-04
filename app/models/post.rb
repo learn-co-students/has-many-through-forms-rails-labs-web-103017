@@ -4,5 +4,13 @@ class Post < ActiveRecord::Base
   has_many :comments
   has_many :users, through: :comments
 
+  accepts_nested_attributes_for :categories
 
+
+  def categories_attributes=(cats)
+    cats.each do |cat|
+      n = Category.find_or_create_by(cat)
+      self.categories << n 
+    end
+  end
 end
